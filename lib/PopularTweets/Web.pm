@@ -2,6 +2,9 @@ package PopularTweets::Web;
 use strict;
 use warnings;
 use parent qw/PopularTweets Amon2::Web/;
+use 5.010001;
+use CGI qw(escapeHTML);
+use URI::Find;
 use File::Spec;
 
 # load all controller classes
@@ -15,7 +18,7 @@ sub dispatch {
 }
 
 # setup view class
-use Text::Xslate;
+use Text::Xslate qw/mark_raw/;
 {
     my $view_conf = __PACKAGE__->config->{'Text::Xslate'} || +{};
     unless (exists $view_conf->{path}) {
@@ -28,6 +31,20 @@ use Text::Xslate;
             c => sub { Amon2->context() },
             uri_with => sub { Amon2->context()->req->uri_with(@_) },
             uri_for  => sub { Amon2->context()->uri_for(@_) },
+            remove_tag => sub {
+                local $_ = shift;
+                $_ =~ s!<[^>]+>!!g;
+                $_;
+            },
+            auto_link => sub {
+                my $html = escapeHTML($_[0]);
+                state $finder = URI::Find->new(sub { 
+                    my($uri, $orig_uri) = @_;
+                    return qq|<a href="$uri">$orig_uri</a>|;
+                });
+                $finder->find(\$html);
+                return mark_raw($html);
+            },
         },
         %$view_conf
     });
@@ -37,7 +54,7 @@ use Text::Xslate;
 # load plugins
 use HTTP::Session::Store::File;
 __PACKAGE__->load_plugins(
-    'Web::FillInFormLite',
+    'Web::JSON',
     'Web::NoCache', # do not cache the dynamic content by default
     'Web::CSRFDefender',
     'Web::HTTPSession' => {

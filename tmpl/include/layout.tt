@@ -19,7 +19,7 @@
 <body[% IF bodyID %] class="[% bodyID %]"[% END %]>
     <div class="container">
         <header>
-            <a href="[% uri_for('/') %]">PopularTweets</a>
+            <a href="[% uri_for('/') %]">Popular Tweets</a>
         </header>
         <div id="main">
             [% content %]

@@ -2,21 +2,26 @@
 
 <hr class="space">
 
-<div class="span-15 colborder">
-    <h1>Hello, Amon2 world!</h1>
+<div class="tweets">
+    [% FOR row IN rows %]
+        <div class="tweet clearfix">
+            <div class="span-2 user_info">
+                    <a href="http://twitter.com/[% row.user.screen_name %]">
+                        <img src="[% row.user.profile_image_url %]" alt="[% row.user.name %]" width="48" height="48" />
+                        <div class="screen_name">[% row.user.screen_name %]</div>
+                    </a>
+            </div>
+            <div class="tweet_info span-15">
+                [% row.text | auto_link %]<br />
+                <div class="tweet_footer">
+                    <a href="http://twitter.com/#!/[% row.user.screen_name %]/status/[% row.id_str %]">[% row.created_at %]</a>
+                    via [% row.source | remove_tag %]
+                </div>
+            </div>
+        </div>
 
-    <h2>For benchmarkers...</h2>
-    <p>If you want to benchmarking between Plack based web application frameworks, you should use <B>Amon2::Setup::Flavor::Minimum</B> instead.</p>
-    <p>You can use it as following one liner:</p>
-    <pre>% amon2-setup.pl --flavor Minimum PopularTweets</pre>
-</div>
-<div class="span-8 last">
-    <p>Amon2 is right for you if ...</p>
-    <ul>
-    <li>You need exceptional performance.</li>
-    <li>You want a framework with a small footprint.</li>
-    <li>You want a framework that requires nearly zero configuration.</li>
-    </ul>
+        <hr class="space colborder">
+    [% END %]
 </div>
 
 <hr class="space">

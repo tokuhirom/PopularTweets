@@ -18,6 +18,24 @@ footer {
         font-weight: bold;
     }
 
+.tweet {
+    }
+    .tweet a {
+        text-decoration: none;
+    }
+    .tweet .user_info {
+        text-align: center;
+        }
+        .tweet .user_info .screen_name {
+            font-size: x-small;
+            word-break: break-all;
+        }
+    .tweet .tweet_info {
+        }
+    .tweet .tweet_footer {
+        font-size: 80%;
+        }
+
 /* smart phones */
 @media screen and (max-device-width: 480px) {
 }
