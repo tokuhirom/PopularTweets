@@ -1,0 +1,1 @@
+*/10 *  *   *   *     semaphore --max=1 --file=/tmp/crawler.semaphore -- cronlog  --logfile=/tmp/crawler.cronlog --timestamp perl /home/dotcloud/code/script/crawler.pl

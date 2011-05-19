@@ -1,5 +1,12 @@
 use ExtUtils::MakeMaker;
 
+eval "use File::Which; File::Which::which('cronlog');" or do {
+	use File::Temp;
+	my $tmp = File::Temp->new(UNLINK => 1);
+	system "curl -L --output $tmp http://github.com/kazuho/kaztools/tarball/master";
+	system "cpanm -nv $tmp";
+};
+
 WriteMakefile(
     NAME          => 'PopularTweets',
     AUTHOR        => 'Some Person <person@example.com>',
@@ -20,6 +27,9 @@ WriteMakefile(
 		'URI::Find' => 0,
 		'Time::Duration' => 0,
     },
+	CONFIGURE_REQUIRES => {
+		'File::Which' => 0,
+	},
     MIN_PERL_VERSION => '5.008001',
     (-d 'xt' and $ENV{AUTOMATED_TESTING} || $ENV{RELEASE_TESTING}) ? (
         test => {
