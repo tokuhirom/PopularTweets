@@ -1,3 +1,4 @@
 #!/bin/sh
 
+echo $PLACK_ENV
 perl script/setup.pl
