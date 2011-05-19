@@ -12,6 +12,7 @@ use PopularTweets;
 
 my $c = PopularTweets->new();
 
-open my $fh, '<:utf8', 'sql/my.sql';
+open my $fh, '<:utf8', 'sql/sqlite3.sql';
 my $sql = do { local $/; <$fh> };
-$c->dbh->do($sql);
+print "executing: $sql\n";
+$c->dbh->do($sql) or die;
