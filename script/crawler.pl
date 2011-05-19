@@ -12,17 +12,16 @@ use PopularTweets;
 use JSON qw/decode_json encode_json/;
 use DBD::SQLite;
 use Log::Minimal;
-use HTTP::Date qw/str2time/;
 use Time::Piece;
 use PopularTweets::LongifyURL;
 use URI::Find;
+use PopularTweets::TwitterUtil qw/tw_str2time/;
 
 my $c = PopularTweets->new();
 
 &main;exit;
 
 sub main {
-    my $PATTERN = '%a %b %d %T %z %Y';
     my $longifier = PopularTweets::LongifyURL->new;
     my $finder = URI::Find->new(sub {
         my $uri = shift;
@@ -36,7 +35,7 @@ sub main {
         next if $exists;
 
         infof(" fetching status: $id");
-        my $rt_ctime = Time::Piece->strptime($row->{'created_at'}, $PATTERN) // die "Cannot parse created_at: $row->{created_at}";
+        my $rt_ctime = tw_str2time($row->{'created_at'}) // die "Cannot parse created_at: $row->{created_at}";
         my $url = "http://api.twitter.com/1/statuses/show/${id}.json";
         my $res = __ua()->get($url);
         $res->is_success or do {
@@ -45,7 +44,7 @@ sub main {
         };
         my $dat = eval { decode_json($res->content) } // die "Cannot parse JSON: $@\n@{[ $res->content ]}";
         $finder->find(\($dat->{text}));
-        $c->dbh->do(q{INSERT INTO post (id, data, ctime) VALUES (?, ?, ?)}, {}, $id, encode_json($dat), $rt_ctime->epoch);
+        $c->dbh->do(q{INSERT INTO post (id, data, ctime) VALUES (?, ?, ?)}, {}, $id, encode_json($dat), $rt_ctime);
     }
 }
 

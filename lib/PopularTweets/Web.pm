@@ -6,6 +6,8 @@ use 5.010001;
 use CGI qw(escapeHTML);
 use URI::Find;
 use File::Spec;
+use PopularTweets::TwitterUtil qw/tw_str2time tw_url2img/;
+use Time::Duration qw/duration/;
 
 # load all controller classes
 use Module::Find ();
@@ -44,6 +46,23 @@ use Text::Xslate qw/mark_raw/;
                 });
                 $finder->find(\$html);
                 return mark_raw($html);
+            },
+            link2foo => sub {
+                my $html = $_[0];
+                my $ret;
+                my $finder = URI::Find->new(sub { 
+                    my ($uri) = @_;
+                    my $img = tw_url2img($uri);
+                    if ($img) {
+                        $ret = sprintf(qq|<img src="%s" alt="%s" />|, escapeHTML($img), escapeHTML($uri));
+                    }
+                });
+                $finder->find(\$html);
+                return mark_raw($ret);
+            },
+            tw_str2time => \&tw_str2time,
+            ago => sub {
+                Time::Duration::ago(time()-shift, 1)
             },
         },
         %$view_conf

@@ -1,5 +1,7 @@
 [% WRAPPER 'include/layout.tt' %]
 
+<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+
 <hr class="space">
 
 <div class="tweets">
@@ -14,10 +16,13 @@
             <div class="tweet_info span-15">
                 [% row.text | auto_link %]<br />
                 <div class="tweet_footer">
-                    <a href="http://twitter.com/#!/[% row.user.screen_name %]/status/[% row.id_str %]">[% row.created_at %]</a>
+                    <a href="http://twitter.com/#!/[% row.user.screen_name %]/status/[% row.id_str %]">[% row.created_at | tw_str2time | ago %]</a>
                     via [% row.source | remove_tag %]
+                    <a href="http://twitter.com/intent/retweet?tweet_id=[% row.id_str %]">RT</a>
+                    <a href="http://twitter.com/intent/favorite?tweet_id=[% row.id_str %]">Fav</a>
                 </div>
             </div>
+            [% row.text | link2foo %]
         </div>
 
         <hr class="space colborder">
