@@ -18,6 +18,7 @@ WriteMakefile(
 		'DBI' => 0,
 		'Amon2::DBI' => 0,
 		'URI::Find' => 0,
+		'Time::Duration' => 0,
     },
     MIN_PERL_VERSION => '5.008001',
     (-d 'xt' and $ENV{AUTOMATED_TESTING} || $ENV{RELEASE_TESTING}) ? (
