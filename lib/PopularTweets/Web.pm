@@ -92,12 +92,4 @@ __PACKAGE__->add_trigger(
     },
 );
 
-__PACKAGE__->add_trigger(
-    BEFORE_DISPATCH => sub {
-        my ( $c ) = @_;
-        # ...
-        return;
-    },
-);
-
 1;
