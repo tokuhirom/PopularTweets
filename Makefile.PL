@@ -26,6 +26,7 @@ WriteMakefile(
 		'Amon2::DBI' => 0,
 		'URI::Find' => 0,
 		'Time::Duration' => 0,
+		'Log::Minimal' => 0,
     },
 	CONFIGURE_REQUIRES => {
 		'File::Which' => 0,
