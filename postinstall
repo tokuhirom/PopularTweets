@@ -1,3 +1,3 @@
 #!/bin/sh
 
-sqlite3 /home/dotcloud/deployment.db < sql/sqlite3.sql
+perl script/setup.pl
