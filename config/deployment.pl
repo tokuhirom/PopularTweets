@@ -1,6 +1,6 @@
 +{
     'DBI' => [
-        'dbi:SQLite:dbname=deployment.db',
+        'dbi:SQLite:dbname=/home/dotcloud/deployment.db',
         '',
         '',
         +{
