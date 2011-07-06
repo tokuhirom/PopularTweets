@@ -13,7 +13,7 @@
                         <div class="screen_name">[% row.user.screen_name %]</div>
                     </a>
             </div>
-            <div class="tweet_info span-15">
+            <div class="tweet_info">
                 [% row.text | auto_link %]<br />
                 <div class="tweet_footer">
                     <a href="http://twitter.com/#!/[% row.user.screen_name %]/status/[% row.id_str %]">[% row.created_at | tw_str2time | ago %]</a>
@@ -22,10 +22,8 @@
                     <a href="http://twitter.com/intent/favorite?tweet_id=[% row.id_str %]">Fav</a>
                 </div>
             </div>
-            [% row.text | link2foo %]
+            <div class="externals">[%# row.text | link2foo %]</div>
         </div>
-
-        <hr class="space colborder">
     [% END %]
 </div>
 
